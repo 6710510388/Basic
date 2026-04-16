@@ -111,9 +111,18 @@ body::after {
 }
 
 .landing-content {
-  display:flex; flex-direction:column; align-items:center;
-  gap:.5rem; max-width:460px; width:100%; text-align:center;
+  display: flex; flex-direction: column; align-items: center;
+  gap: .5rem; max-width: 400px; /* ลดจาก 460 เป็น 400 */
+  width: 100%; text-align: center;
+  padding: 0 1rem; /* เพิ่ม padding ซ้ายขวา */
 }
+
+/* ปรับขนาดกล่องของขวัญให้เล็กลงเล็กน้อยบนมือถือ */
+.gift-scene {
+  transform: scale(0.9);
+  margin: 0.5rem 0;
+}
+
 
 .landing-tagline {
   font-size:.88rem; letter-spacing:.22em;
@@ -134,11 +143,17 @@ body::after {
 
 /* ── Gift Box ── */
 .gift-scene {
-  position:relative;
-  display:flex; align-items:center; justify-content:center;
-  width:200px; height:230px;
-  margin:.8rem 0;
+  position: relative;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  width: 200px; 
+  height: 230px;
+  /* ปรับแก้จากเดิม: ใช้ค่าที่รองรับมือถือ */
+  margin: 0.5rem 0;      /* แก้จาก .8rem เป็น 0.5rem ตามที่คุณต้องการ */
+  transform: scale(0.9);  /* เพิ่มการย่อขนาดลง 10% เพื่อให้พอดีจอมือถือ */
 }
+
 
 /* Golden ambient glow ring under box */
 .gift-glow-ring {
@@ -351,9 +366,17 @@ body::after {
 }
 
 .menu-grid {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; width:100%;
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); /* บังคับ 2 คอลัมน์ */
+  gap: 0.8rem; /* ลดช่องว่างให้พอดีหน้าจอโทรศัพท์ */
+  width: 100%;
 }
+
+/* ถ้าจอมือถือเล็กมาก (เช่น iPhone SE) ให้เรียงเป็นแถวเดียว */
+@media (max-width: 360px) {
+  .menu-grid { grid-template-columns: 1fr; }
+}
+
 
 .mcard {
   background:var(--glass);
@@ -493,9 +516,14 @@ body::after {
 }
 
 .cd-grid {
-  display:flex; align-items:center; gap:.5rem;
-  flex-wrap:wrap; justify-content:center;
+  padding: 1rem; /* ลด padding */
+  display: grid; grid-template-columns: repeat(2, 1fr); /* มือถือส่วนใหญ่ใช้ 2 คอลัมน์ */
+  gap: 0.6rem; /* ลด gap */
+  max-width: 620px; margin: 0 auto; width: 100%;
 }
+
+.flip-card { perspective: 1000px; height: 140px; cursor: pointer; } /* ลดความสูงการ์ดลงเล็กน้อย */
+
 .cd-unit {
   display:flex; flex-direction:column; align-items:center;
   background:var(--glass); border:1px solid var(--glass-b);
@@ -586,6 +614,29 @@ body::after {
   max-width:320px; line-height:1.5;
 }
 .wish-text.visible { opacity:1; }
+
+/* --- ส่วนของข้อความโปรย (Falling Text) ที่เพิ่มใหม่ --- */
+.falling-msg {
+  position: absolute;
+  color: var(--gold-lt);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  text-shadow: 0 0 10px rgba(201,168,76,0.5);
+  animation: fall-and-fade var(--dur) linear forwards;
+}
+
+@keyframes fall-and-fade {
+  0% { transform: translateY(-20px); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(300px); opacity: 0; }
+}
+
 
 /* ══════════════════════════════════════════════════
    CARDS PAGE
