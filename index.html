@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Our Anniversary ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="data.js"></script>
+</head>
+<body>
+
+<!-- Ambient particle background -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 : LANDING — กล่องของขวัญ + รหัสปลดล็อก
+══════════════════════════════════════════════════ -->
+<section class="page" id="page-landing">
+  <div class="landing-content">
+
+    <p  class="landing-tagline" id="landing-tagline"></p>
+    <h1 class="landing-names"   id="landing-names"></h1>
+
+    <!-- Gift box -->
+    <div class="gift-scene">
+      <div class="gift-glow-ring"></div>
+      <div class="gift-wrap" id="gift-wrap">
+
+        <!-- Lid -->
+        <div class="gift-lid" id="gift-lid">
+          <div class="ribbon-h"></div>
+          <div class="bow">
+            <div class="bow-loop left"></div>
+            <div class="bow-loop right"></div>
+            <div class="bow-knot"></div>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="gift-body">
+          <div class="ribbon-v"></div>
+          <div class="body-shine"></div>
+        </div>
+
+      </div>
+      <div id="sparks-container"></div>
+    </div>
+
+    <!-- Password unlock -->
+    <div class="lock-area" id="lock-area">
+      <p class="lock-hint">ใส่วันที่พิเศษของเรา <em>(วว/ดด/ปป)</em></p>
+      <div class="lock-row">
+        <input
+          id="date-input"
+          class="date-input"
+          type="text"
+          placeholder="14/02/22"
+          maxlength="8"
+          inputmode="numeric"
+          autocomplete="off"
+        />
+        <button class="open-btn" onclick="tryUnlock()">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          เปิด
+        </button>
+      </div>
+      <p class="lock-error" id="lock-error"></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 : MENU
+══════════════════════════════════════════════════ -->
+<section class="page" id="page-menu">
+  <div class="menu-inner">
+    <div class="menu-deco-top">
+      <span class="deco-line"></span>
+      <span class="deco-heart">♡</span>
+      <span class="deco-line"></span>
+    </div>
+    <h2 class="menu-title" id="menu-title"></h2>
+    <p  class="menu-sub">เลือกสิ่งที่อยากดู</p>
+
+    <div class="menu-grid">
+      <button class="mcard" onclick="goToPage('page-timeline')">
+        <span class="mcard-icon">📸</span>
+        <span class="mcard-name">Timeline</span>
+        <span class="mcard-desc">เรื่องราวของเรา</span>
+        <span class="mcard-arrow">→</span>
+      </button>
+      <button class="mcard" onclick="goToPage('page-countdown')">
+        <span class="mcard-icon">⏳</span>
+        <span class="mcard-name">Countdown</span>
+        <span class="mcard-desc">นับถอยหลัง</span>
+        <span class="mcard-arrow">→</span>
+      </button>
+      <button class="mcard" onclick="goToPage('page-stars')">
+        <span class="mcard-icon">🌠</span>
+        <span class="mcard-name">ฝนดาวตก</span>
+        <span class="mcard-desc">อธิษฐานด้วยกัน</span>
+        <span class="mcard-arrow">→</span>
+      </button>
+      <button class="mcard" onclick="goToPage('page-cards')">
+        <span class="mcard-icon">💌</span>
+        <span class="mcard-name">การ์ดความรัก</span>
+        <span class="mcard-desc">พลิกเปิดทีละใบ</span>
+        <span class="mcard-arrow">→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 : TIMELINE
+══════════════════════════════════════════════════ -->
+<section class="page" id="page-timeline">
+  <div class="topbar">
+    <button class="back-btn" onclick="goToPage('page-menu')">← กลับ</button>
+    <h2 class="topbar-title" id="timeline-title"></h2>
+  </div>
+  <div class="timeline-wrap" id="timeline-wrap"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 4 : COUNTDOWN
+══════════════════════════════════════════════════ -->
+<section class="page" id="page-countdown">
+  <div class="topbar topbar--transp">
+    <button class="back-btn" onclick="goToPage('page-menu')">← กลับ</button>
+  </div>
+  <div class="countdown-body">
+    <p class="cd-heart">❤</p>
+    <h2 class="cd-heading" id="cd-heading"></h2>
+    <div class="cd-grid">
+      <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-lbl">วัน</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-lbl">ชั่วโมง</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-lbl">นาที</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-lbl">วินาที</span></div>
+    </div>
+    <p class="cd-message" id="cd-message"></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 5 : FALLING STARS
+══════════════════════════════════════════════════ -->
+<section class="page" id="page-stars">
+  <div class="topbar topbar--transp">
+    <button class="back-btn" onclick="goToPage('page-menu')">← กลับ</button>
+  </div>
+  <div class="stars-body">
+    <canvas id="stars-canvas"></canvas>
+    <h2 class="stars-heading" id="stars-heading"></h2>
+    <p  class="stars-prompt"  id="stars-prompt"></p>
+    <button class="wish-btn" id="wish-btn" onclick="shootStars()">✨ อธิษฐาน ✨</button>
+    <p class="wish-text" id="wish-text"></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 6 : FLIP CARDS
+══════════════════════════════════════════════════ -->
+<section class="page" id="page-cards">
+  <div class="topbar">
+    <button class="back-btn" onclick="goToPage('page-menu')">← กลับ</button>
+    <h2 class="topbar-title" id="cards-title"></h2>
+  </div>
+  <div class="cards-grid" id="cards-grid"></div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>
