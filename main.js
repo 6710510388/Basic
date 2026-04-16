@@ -263,7 +263,12 @@ function initStars() {
 }
 
 function shootStars() {
-  for (let i = 0; i < 10; i++) {
+  const container = document.querySelector('.stars-body'); // เพิ่มบรรทัดนี้เพื่อหาที่วางข้อความ
+  const btn = document.getElementById('wish-btn');
+  if (btn) btn.style.display = 'none'; // ซ่อนปุ่มเมื่อกด
+
+  // 1. ระบบดาวตกบน Canvas (คงเดิมแต่ปรับจำนวน)
+  for (let i = 0; i < 15; i++) {
     setTimeout(() => {
       shooters.push({
         x: Math.random() * starsW * 0.4,
@@ -274,8 +279,40 @@ function shootStars() {
         tail: [],
         size: 1.8 + Math.random() * 1.5,
       });
-    }, i * 100);
+    }, i * 150);
   }
+
+  // 2. ระบบข้อความโปรยลงมา (ส่วนที่เพิ่มใหม่)
+  if (DATA.fallingTexts && DATA.fallingTexts.length > 0) {
+    DATA.fallingTexts.forEach((txt, i) => {
+      setTimeout(() => {
+        const span = document.createElement('span');
+        span.className = 'falling-msg'; // ต้องตรงกับชื่อใน style.css
+        span.textContent = txt;
+        
+        // สุ่มตำแหน่งซ้าย-ขวา (15% - 85%) เพื่อไม่ให้ตกขอบจอ
+        span.style.left = (Math.random() * 70 + 15) + '%';
+        // สุ่มความเร็วในการหล่น (3-5 วินาที)
+        span.style.setProperty('--dur', (3 + Math.random() * 2) + 's');
+        
+        container.appendChild(span);
+        
+        // ลบ Element ทิ้งเมื่อจบ Animation เพื่อประหยัดแรมมือถือ
+        setTimeout(() => span.remove(), 5000);
+      }, i * 450); // ทยอยปล่อยออกมาทีละคำ
+    });
+  }
+
+  // 3. แสดงข้อความอธิษฐานสุดท้าย (คงเดิมแต่ปรับเวลา)
+  setTimeout(() => {
+    const el = document.getElementById('wish-text');
+    if (el) {
+      el.textContent = DATA.starsWish;
+      el.classList.add('visible');
+    }
+  }, 3500);
+}
+
 
   setTimeout(() => {
     const el = document.getElementById('wish-text');
